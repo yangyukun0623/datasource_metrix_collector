@@ -16,4 +16,6 @@ public interface MillisMetrics {
 
     boolean terminal(int exitCode) throws MetricsTerminalException;
 
+    StackTraceElement[] getCurrentStackTrace();
+
 }

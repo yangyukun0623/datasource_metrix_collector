@@ -6,6 +6,11 @@ import java.util.List;
 public class TransactionMetrics extends AbstractMillisMetrics {
 
     /**
+     * 事务ID
+     */
+    private Long transactionId;
+
+    /**
      * 是否自动提交事务
      */
     private final boolean isAutoCommit;
@@ -23,6 +28,25 @@ public class TransactionMetrics extends AbstractMillisMetrics {
 
     public boolean isAutoCommit() {
         return this.isAutoCommit;
+    }
+
+    public List<StatementMetrics> getStatementCollect() {
+        return this.statementCollect;
+    }
+
+    public void collectStatementMetrics(StatementMetrics statementMetrics) {
+        if (this.statementCollect == null) {
+            this.statementCollect = new ArrayList<>();
+        }
+        this.statementCollect.add(statementMetrics);
+    }
+
+    public Long getTransactionId() {
+        return this.transactionId;
+    }
+
+    public void setTransactionId(Long transactionId) {
+        this.transactionId = transactionId;
     }
 
 }
