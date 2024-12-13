@@ -1,6 +1,7 @@
 package com.ikun.metrics.transaction.config;
 
 import com.ikun.metrics.MetricsTerminalException;
+import com.ikun.metrics.transaction.utils.ExceptionUtils;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -13,6 +14,8 @@ public abstract class AbstractMillisMetrics implements MillisMetrics {
     private final AtomicBoolean finish = new AtomicBoolean(false);
 
     private int exitCode;
+
+    private StackTraceElement[] stackTrace;
 
     public AbstractMillisMetrics() {
         this.startTimeMillis = System.currentTimeMillis();
@@ -52,10 +55,15 @@ public abstract class AbstractMillisMetrics implements MillisMetrics {
         if (this.finish.compareAndSet(false, true)) {
             this.exitCode = 0;
             this.endTimeMillis = System.currentTimeMillis();
+            this.stackTrace = ExceptionUtils.getCurrentStackTrace();
             return true;
         }
         this.exitCode = exitCode;
         return false;
+    }
+
+    public StackTraceElement[] getCurrentStackTrace() {
+        return this.stackTrace;
     }
 
 }

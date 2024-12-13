@@ -22,4 +22,35 @@ public class TransactionCollectProperties {
      */
     private boolean collectUpdateSql = false;
 
+    public long getMaxTransactionRunningMillis() {
+        return maxTransactionRunningMillis;
+    }
+
+    public void setMaxTransactionRunningMillis(long maxTransactionRunningMillis) {
+        this.maxTransactionRunningMillis = maxTransactionRunningMillis;
+    }
+
+    public int getMaxTransactionSql() {
+        return maxTransactionSql;
+    }
+
+    public void setMaxTransactionSql(int maxTransactionSql) {
+        this.maxTransactionSql = maxTransactionSql;
+    }
+
+    public boolean isCollectUnAutoCommit() {
+        return collectUnAutoCommit;
+    }
+
+    public void setCollectUnAutoCommit(boolean collectUnAutoCommit) {
+        this.collectUnAutoCommit = collectUnAutoCommit;
+    }
+
+    public boolean isCollectUpdateSql() {
+        return collectUpdateSql;
+    }
+
+    public void setCollectUpdateSql(boolean collectUpdateSql) {
+        this.collectUpdateSql = collectUpdateSql;
+    }
 }

@@ -15,14 +15,16 @@ public class TransactionMetrics extends AbstractMillisMetrics {
      */
     private final boolean isAutoCommit;
 
+    private boolean timeoutKill = false;
+
     /**
      * 当前事务执行sql
      */
     private List<StatementMetrics> statementCollect;
 
-
-    public TransactionMetrics(boolean isAutoCommit) {
+    public TransactionMetrics(boolean isAutoCommit, Long transactionId) {
         this.isAutoCommit = isAutoCommit;
+        this.transactionId = transactionId;
         this.statementCollect = new ArrayList<>();
     }
 
@@ -32,6 +34,10 @@ public class TransactionMetrics extends AbstractMillisMetrics {
 
     public List<StatementMetrics> getStatementCollect() {
         return this.statementCollect;
+    }
+
+    public int getStatementSize() {
+        return this.statementCollect.size();
     }
 
     public void collectStatementMetrics(StatementMetrics statementMetrics) {
@@ -47,6 +53,14 @@ public class TransactionMetrics extends AbstractMillisMetrics {
 
     public void setTransactionId(Long transactionId) {
         this.transactionId = transactionId;
+    }
+
+    public boolean isTimeoutKill() {
+        return timeoutKill;
+    }
+
+    public void setTimeoutKill(boolean timeoutKill) {
+        this.timeoutKill = timeoutKill;
     }
 
 }
