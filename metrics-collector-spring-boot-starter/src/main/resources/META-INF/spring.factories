@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.ikun.metrics.spring.boot.autoconfigure.MetricsCollectorAutoConfiguration,\
+com.ikun.metrics.spring.boot.autoconfigure.DruidMonitorFilterConfiguration

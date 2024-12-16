@@ -1,5 +1,7 @@
 package com.ikun.metrics.transaction.holder;
 
+import com.ikun.metrics.transaction.collector.mysql.model.TransactionModel;
+import com.ikun.metrics.transaction.collector.mysql.query.MySQLTrxQuerys;
 import com.ikun.metrics.transaction.config.StatementMetrics;
 import com.ikun.metrics.transaction.config.TransactionCollectProperties;
 import com.ikun.metrics.transaction.config.TransactionMetrics;
@@ -16,7 +18,7 @@ public class TransactionMetricsHolder {
 
     private final TransactionCollectProperties properties;
 
-    private DataSource currentDataSource;
+    private final DataSource currentDataSource;
 
     public TransactionMetricsHolder(TransactionCollectProperties props, DataSource dataSource) {
         this.properties = props;
@@ -26,6 +28,12 @@ public class TransactionMetricsHolder {
     public void transactionReady(boolean isAutoCommit, Long transactionId) {
         TransactionMetrics metrics = new TransactionMetrics(isAutoCommit, transactionId);
         TRX_INFO_RECORD.set(metrics);
+        if (transactionId != null) {
+            TransactionModel model = MySQLTrxQuerys.queryRunningTrxModel(getCurrentDataSource(), transactionId);
+            if (model != null) {
+                metrics.getVariables().put(MySQLTrxQuerys.TRX_MODEL_KEY, model);
+            }
+        }
         log.info(" trx {} ready ... ", transactionId);
     }
 
@@ -41,6 +49,7 @@ public class TransactionMetricsHolder {
                 log.warn(" trx {} contains {} sql ", metrics.getTransactionId(), metrics.getStatementSize());
             }
             log.info(" trx {} contains sql: {}", metrics.getTransactionId(), metrics.getStatementCollect());
+            log.info("trx {} start transaction {}", metrics.getTransactionId(), metrics.getVariables().get(MySQLTrxQuerys.TRX_MODEL_KEY));
         }
         log.info(" trx {} end ... ", trxId);
     }

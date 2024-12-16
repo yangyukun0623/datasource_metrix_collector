@@ -1,7 +1,9 @@
 package com.ikun.metrics.transaction.config;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TransactionMetrics extends AbstractMillisMetrics {
 
@@ -16,6 +18,8 @@ public class TransactionMetrics extends AbstractMillisMetrics {
     private final boolean isAutoCommit;
 
     private boolean timeoutKill = false;
+
+    private Map<String, Object> variables = new HashMap<>();
 
     /**
      * 当前事务执行sql
@@ -63,4 +67,11 @@ public class TransactionMetrics extends AbstractMillisMetrics {
         this.timeoutKill = timeoutKill;
     }
 
+    public Map<String, Object> getVariables() {
+        return variables;
+    }
+
+    public void setVariables(Map<String, Object> variables) {
+        this.variables = variables;
+    }
 }
